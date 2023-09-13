@@ -8,6 +8,9 @@
 
   <ItemGroup>
     <Folder Include="FluentValidation\" />
+    <Folder Include="Interfaces\" />
+    <Folder Include="Utility\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>
