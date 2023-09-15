@@ -1,8 +1,8 @@
-﻿namespace DataLayer.Entities;
+﻿
+namespace DataLayer.Entities;
 
-public class About
+public class About: BaseEntity.BaseEntity
 {
-    public int Id { get; set; }
     public string Title { get; set; }
     public string Description { get; set; }
     public string ImageFileName { get; set; } 

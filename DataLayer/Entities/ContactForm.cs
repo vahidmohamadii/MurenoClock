@@ -1,8 +1,7 @@
 ﻿namespace DataLayer.Entities;
 
-public class ContactForm
+public class ContactForm: BaseEntity.BaseEntity
 {
-    public int Id { get; set; }
     public string Title { get; set; }
     public string Email { get; set; }
     public string Message { get; set; }

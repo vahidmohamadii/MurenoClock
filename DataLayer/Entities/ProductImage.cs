@@ -1,8 +1,7 @@
 ﻿namespace DataLayer.Entities;
 
-public class ProductImage
+public class ProductImage: BaseEntity.BaseEntity
 {
-    public int Id { get; set; }
     public string Title { get; set; }
     public string ImageFileName { get; set; }
     public int ProductId { get; set; }
