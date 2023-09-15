@@ -1,8 +1,6 @@
-﻿using DataLayer.Entities.common;
+﻿namespace BusinessLayer.Dtos.ContactForm;
 
-namespace DataLayer.Entities;
-
-public class ContactForm: BaseEntity
+public class ContactFormDto
 {
     public string Title { get; set; }
     public string Email { get; set; }

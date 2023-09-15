@@ -1,8 +1,8 @@
-﻿using DataLayer.Entities.common;
+﻿
 
-namespace DataLayer.Entities;
+namespace BusinessLayer.Dtos.Contact;
 
-public class Contact: BaseEntity
+public class ContactDto
 {
     public string Title { get; set; }
     public string Address { get; set; }

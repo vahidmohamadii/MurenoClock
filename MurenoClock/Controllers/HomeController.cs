@@ -20,7 +20,7 @@ namespace MurenoClock.Controllers
 
         public IActionResult Index()
         {
-            _unitOfWork.AboutRepository.GetAll();
+            
             return View();
         }
 

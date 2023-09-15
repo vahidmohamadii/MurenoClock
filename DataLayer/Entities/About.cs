@@ -1,7 +1,9 @@
 ﻿
+using DataLayer.Entities.common;
+
 namespace DataLayer.Entities;
 
-public class About: BaseEntity.BaseEntity
+public class About: BaseEntity
 {
     public string Title { get; set; }
     public string Description { get; set; }

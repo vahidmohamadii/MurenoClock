@@ -1,6 +1,8 @@
-﻿namespace DataLayer.Entities;
+﻿using DataLayer.Entities.common;
 
-public class ProductCategory: BaseEntity.BaseEntity
+namespace DataLayer.Entities;
+
+public class ProductCategory: BaseEntity
 {
     public string Title { get; set; }
     public List<Product> products { get; set; }

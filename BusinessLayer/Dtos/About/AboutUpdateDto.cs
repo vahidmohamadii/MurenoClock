@@ -1,11 +1,11 @@
-﻿using DataLayer.Entities.common;
+﻿
+using BusinessLayer.Dtos.Common;
 
-namespace DataLayer.Entities;
+namespace BusinessLayer.Dtos.About;
 
-public class Slide: BaseEntity
+public class AboutUpdateDto:BaseDto
 {
     public string Title { get; set; }
     public string Description { get; set; }
     public string ImageFileName { get; set; }
-    public string Link { get; set; }
 }

@@ -1,10 +1,9 @@
 ﻿
+using BusinessLayer.Dtos.Common;
 
-using DataLayer.Entities.common;
+namespace BusinessLayer.Dtos.Nav;
 
-namespace DataLayer.Entities;
-
-public class Nav:BaseEntity
+public class UpdateNavDto:BaseDto
 {
     public string Title { get; set; }
     public string ImageFileName { get; set; }

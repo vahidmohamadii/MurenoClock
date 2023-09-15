@@ -1,6 +1,8 @@
-﻿namespace DataLayer.Entities;
+﻿using DataLayer.Entities.common;
 
-public class ProductImage: BaseEntity.BaseEntity
+namespace DataLayer.Entities;
+
+public class ProductImage: BaseEntity
 {
     public string Title { get; set; }
     public string ImageFileName { get; set; }

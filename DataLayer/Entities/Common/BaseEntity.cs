@@ -1,4 +1,4 @@
-﻿namespace DataLayer.Entities.BaseEntity;
+﻿namespace DataLayer.Entities.common;
 
 public abstract class BaseEntity
 {

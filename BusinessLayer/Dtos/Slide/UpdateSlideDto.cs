@@ -1,8 +1,9 @@
-﻿using DataLayer.Entities.common;
+﻿
+using BusinessLayer.Dtos.Common;
 
-namespace DataLayer.Entities;
+namespace BusinessLayer.Dtos.Slide;
 
-public class OnlineSell: BaseEntity
+public class UpdateSlideDto:BaseDto
 {
     public string Title { get; set; }
     public string Description { get; set; }

@@ -1,8 +1,8 @@
-﻿using DataLayer.Entities.common;
+﻿
 
-namespace DataLayer.Entities;
+namespace BusinessLayer.Dtos.Social;
 
-public class Social: BaseEntity
+public class SocialDto
 {
     public string Title { get; set; }
     public string ImageFileName { get; set; }

@@ -1,8 +1,10 @@
-﻿using DataLayer.Entities.common;
+﻿
 
-namespace DataLayer.Entities;
+using BusinessLayer.Dtos.Common;
 
-public class OnlineSell: BaseEntity
+namespace BusinessLayer.Dtos.OnlineSell;
+
+public class UpdateOnlineSellDto:BaseDto
 {
     public string Title { get; set; }
     public string Description { get; set; }

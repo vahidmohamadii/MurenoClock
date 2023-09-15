@@ -81,18 +81,6 @@ public class UnitOfWork : IUnitOfWork
         _context.SaveChanges();
     }
 
-    protected void Dispose(bool disposing)
-    {
-        if (!this._disposed)
-        {
-            if (disposing)
-            {
-                _context.Dispose();
-            }
-        }
-        this._disposed = true;
-
-    }
 
 
     public void RoleBack()
@@ -102,7 +90,7 @@ public class UnitOfWork : IUnitOfWork
 
     public void Dispose()
     {
-        Dispose(true);
+        Dispose();
         GC.SuppressFinalize(this);
     }
 

@@ -1,8 +1,10 @@
-﻿using DataLayer.Entities.common;
+﻿
 
-namespace DataLayer.Entities;
+using BusinessLayer.Dtos.Common;
 
-public class ContactForm: BaseEntity
+namespace BusinessLayer.Dtos.ContactForm;
+
+public class UpdateContactFormDto:BaseDto
 {
     public string Title { get; set; }
     public string Email { get; set; }
