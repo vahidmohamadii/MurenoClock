@@ -7,10 +7,24 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="FluentValidation\" />
+    <Folder Include="FluentValidation\ContactForm\" />
+    <Folder Include="FluentValidation\Contact\" />
+    <Folder Include="FluentValidation\Nav\" />
+    <Folder Include="FluentValidation\OnlineSell\" />
+    <Folder Include="FluentValidation\ProductCategory\" />
+    <Folder Include="FluentValidation\ProductImage\" />
+    <Folder Include="FluentValidation\Product\" />
+    <Folder Include="FluentValidation\Slide\" />
+    <Folder Include="FluentValidation\Social\" />
     <Folder Include="Interfaces\" />
     <Folder Include="Utility\" />
-    <Folder Include="Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="FluentValidation" Version="11.7.1" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.7.1" />
   </ItemGroup>
 
   <ItemGroup>

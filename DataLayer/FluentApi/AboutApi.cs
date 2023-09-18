@@ -24,7 +24,17 @@ public class AboutApi : IEntityTypeConfiguration<About>
         builder.Property(x=>x.ImageFileName).HasMaxLength(500);
 
 
+        //Seed Data
+        builder.HasData(
+            new About()
+            {
 
+                Id=1,
+                Title = "Title",
+                Description = "Description",
+                ImageFileName = "Title"
+               
+            });
 
     }
 }

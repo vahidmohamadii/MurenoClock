@@ -1,5 +1,6 @@
 ﻿
 
+using AutoMapper;
 using BusinessLayer.Repository.EntityRepository;
 using BusinessLayer.Repository.IEntityRepository;
 using DataLayer.Context;
@@ -9,98 +10,79 @@ namespace BusinessLayer.UnitOfWork;
 public class UnitOfWork : IUnitOfWork
 {
     private readonly MurenoClockContext _context;
-    private IAboutRepository _aboutRepository;
-    private IContactRepository _contactRepository;
-    private IContactFormRepository _contactFormRepository;
-    private INavRepository _navRepository;
-    private IOnlineSellRepository _onlineSellRepository;
-    private IProductRepository _productRepository;
-    private IProductCategoryRepository _productCategoryRepository;
-    private IProductImageRepository _productImageRepository;
-    private ISlideRepository _slideRepository;
-    private ISocialRepository _socialRepository;
+    private readonly IMapper _mapper;
 
-    public UnitOfWork(MurenoClockContext context)
+    public UnitOfWork(MurenoClockContext context, IMapper mapper)
     {
         _context = context;
+        About = new AboutRepository(_context, mapper);
+        Contact = new ContactRepository(_context, mapper);
+        ContactForm = new ContactFormRepository(_context, mapper);
+        Nav = new NavRepository(_context, mapper);
+        OnlineSell = new OnlineSellRepository(_context, mapper);
+        Product = new ProductRepository(_context, mapper);
+        ProductCategory = new ProductCategoryRepository(_context, mapper);
+        ProductImage = new ProductImageRepository(_context, mapper);
+        Slide=new SlideRepository(_context, mapper);
+        Social=new SocialRepository(_context, mapper);
 
     }
 
-    public IAboutRepository AboutRepository
+    public IAboutRepository About
     {
-        get { return _aboutRepository = _aboutRepository ?? new AboutRepository(_context); }
+        get;private set;
     }
 
-    public IContactRepository ContactRepository
+    public IContactRepository Contact
     {
-        get { return _contactRepository = _contactRepository ?? new ContactRepository(_context); }
+        get;private set;
     }
 
-    public IContactFormRepository ContactFormRepository
+    public IContactFormRepository ContactForm
     {
-        get { return _contactFormRepository = _contactFormRepository ?? new ContactFormRepository(_context); }
+        get; private set;
     }
 
-    public INavRepository NavRepository
+    public INavRepository Nav
     {
-        get { return _navRepository = _navRepository ?? new NavRepository(_context); }
+        get;private set;
     }
 
-    public IOnlineSellRepository OnlineSellRepository
+    public IOnlineSellRepository OnlineSell
     {
-        get { return _onlineSellRepository = _onlineSellRepository ?? new OnlineSellRepository(_context); }
+        get;private set;
     }
 
-    public IProductCategoryRepository ProductCategoryRepository
+    public IProductCategoryRepository ProductCategory
     {
-        get { return _productCategoryRepository = _productCategoryRepository ?? new ProductCategoryRepository(_context); }
+        get;private set;
     }
 
-    public IProductRepository ProductRepository
+    public IProductRepository Product
     {
-        get { return _productRepository = _productRepository ?? new ProductRepository(_context); }
+        get;private set;
     }
 
-    public IProductImageRepository ProductImageRepository
+    public IProductImageRepository ProductImage
     {
-        get { return _productImageRepository = _productImageRepository ?? new ProductImageRepository(_context); }
+        get;private set;
     }
 
-    public ISlideRepository SlideRepository
+    public ISlideRepository Slide
     {
-        get { return _slideRepository = _slideRepository ?? new SlideRepository(_context); }
+        get;private set;
     }
 
-    public ISocialRepository SocialRepository
+    public ISocialRepository Social
     {
-        get { return _socialRepository = _socialRepository ?? new SocialRepository(_context); }
-    }
-
-    public void Commit()
-    {
-        _context.SaveChanges();
+        get;private set;
     }
 
 
-
-    public void RoleBack()
+    public void Dispose()
     {
         _context.Dispose();
     }
 
-    public void Dispose()
-    {
-        Dispose();
-        GC.SuppressFinalize(this);
-    }
 
-    public void CommitAsync()
-    {
-        _context.SaveChangesAsync();
-    }
-
-    public void RoleBackAsync()
-    {
-        _context.DisposeAsync();
-    }
 }

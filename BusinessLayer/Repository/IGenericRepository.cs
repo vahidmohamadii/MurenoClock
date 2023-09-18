@@ -2,19 +2,19 @@
 
 namespace BusinessLayer.Repository;
 
-public interface IGenericRepository<T> where T : class
+public interface IGenericRepository<TEntity,TDto> where TEntity : class where TDto:class
 {
-    Task<List<T>> GetAllAsync(Expression<Func<T, bool>> where = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includes = "");
-    Task<T> GetByIdAsync(int id);
-    Task<T> InsertAsync(T entity,CancellationToken cancellationToken);
-    Task InsertRangeAsync(IEnumerable<T> entities,CancellationToken cancellationToken);
+    Task<List<TDto>> GetAllAsync(Expression<Func<TDto, bool>> where = null, Func<IQueryable<TDto>, IOrderedQueryable<TDto>> orderBy = null, string includes = "");
+    Task<TDto> GetByIdAsync(int id, CancellationToken cancellationToken);
+    Task<TDto> InsertAsync(TDto dto,CancellationToken cancellationToken);
+    Task InsertRangeAsync(IEnumerable<TDto> entityDto, CancellationToken cancellationToken);
     void SaveAsync();
-    List<T> GetAll(Expression<Func<T, bool>> where = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includes = "");
-    T GetById(int id);
-    T Insert(T entity);
-    void InsertRange(IEnumerable<T> entities);
-    T Uodate(T entity);
-    void UpdateRange(IEnumerable<T> entities);
+    List<TDto> GetAll(Expression<Func<TDto, bool>> where = null, Func<IQueryable<TDto>, IOrderedQueryable<TDto>> orderBy = null, string includes = "");
+    TDto GetById(int id);
+    TDto Insert(TDto dto);
+    void InsertRange(IEnumerable<TDto> dtoes);
+    TDto Update(TDto entity);
+    void UpdateRange(IEnumerable<TDto> entities);
     void DeleteById(int id);
     void Save();
 

@@ -1,9 +1,10 @@
 ﻿
 
+using BusinessLayer.Dtos.Product;
 using DataLayer.Entities;
 
 namespace BusinessLayer.Repository.IEntityRepository;
 
-public interface IProductRepository : IGenericRepository<Product>
+public interface IProductRepository : IGenericRepository<Product,ProductDto>
 {
 }

@@ -1,30 +1,36 @@
 ﻿
+using AutoMapper;
 using DataLayer.Context;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace BusinessLayer.Repository;
 
-public class GenericRepository<T> : IGenericRepository<T> where T : class
+public class GenericRepository<TEntity, TDto> : IGenericRepository<TEntity, TDto> where TEntity : class where TDto :class
 {
     private readonly MurenoClockContext _context;
-    private readonly DbSet<T> _dbSet;
-    public GenericRepository(MurenoClockContext context)
+    private readonly DbSet<TEntity> _dbSet;
+    private readonly IMapper _mapper;
+    public GenericRepository(MurenoClockContext context, IMapper mapper)
     {
         _context = context;
-        _dbSet = _context.Set<T>();
+        _dbSet = _context.Set<TEntity>();
+        _mapper = mapper;
+
     }
 
-    public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>> where = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includes = "")
+    public async Task<List<TDto>> GetAllAsync(Expression<Func<TDto, bool>> where = null, Func<IQueryable<TDto>, IOrderedQueryable<TDto>> orderBy = null, string includes = "")
     {
         var query = _dbSet.AsQueryable();
         if (where != null)
         {
-            query = query.Where(where);
+            var pridicate = _mapper.Map<Expression<Func<TEntity, bool>>>(where);
+            query = query.Where(pridicate);
         }
         if (orderBy != null)
         {
-            query = orderBy(query);
+            var order = _mapper.Map<Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>>(orderBy);
+            query = order(query);
         }
         if (string.IsNullOrEmpty(includes))
         {
@@ -35,45 +41,51 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
 
 
         }
-
-        return await query.ToListAsync();
+         var result = _mapper.ProjectTo<TDto>(query).ToList();
+        return  result;
     }
 
-    public async Task<T> GetByIdAsync(int id)
+    public async Task<TDto> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
-        return await _dbSet.FindAsync(id);
+        var entity = await _dbSet.FindAsync(id,cancellationToken);
+        var result=  _mapper.Map<TDto>(entity);
+        return result;
     }
 
-    public async Task<T> InsertAsync(T entity, CancellationToken cancellationToken)
+    public async Task<TDto> InsertAsync(TDto entityDto, CancellationToken cancellationToken)
     {
-        await _context.AddAsync(entity,cancellationToken);
+         var entity=  _mapper.Map<TEntity>(entityDto);
+        await _context.AddAsync(entity, cancellationToken);
         SaveAsync();
-        return entity;
+        return entityDto;
     }
 
-    public async Task InsertRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken)
+    public async Task InsertRangeAsync(IEnumerable<TDto> entityDto, CancellationToken cancellationToken)
     {
-       _context.AddRange(entities,cancellationToken);
+        var entities=_mapper.Map<TEntity>(entityDto);
+        _context.AddRange(entities,cancellationToken);
         SaveAsync();
       
     }
 
-    public void SaveAsync()
+    public async void SaveAsync()
     {
-        _context.SaveChangesAsync();
+       await _context.SaveChangesAsync();
     }
-    public List<T> GetAll(Expression<Func<T, bool>> where = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includes = "")
+    public List<TDto> GetAll(Expression<Func<TDto, bool>> where = null, Func<IQueryable<TDto>, IOrderedQueryable<TDto>> orderBy = null, string includes = "")
     {
         var query = _dbSet.AsQueryable();
         if (where != null)
         {
-            query = query.Where(where);
+            var pridicate = _mapper.Map<Expression<Func<TEntity, bool>>>(where);
+            query = query.Where(pridicate);
         }
         if (orderBy != null)
         {
-            query = orderBy(query);
+            var order = _mapper.Map<Func<IQueryable<TEntity>,IOrderedQueryable<TEntity>>>(orderBy);
+            query = order(query);
         }
-        if (string.IsNullOrEmpty(includes))
+        if (!string.IsNullOrEmpty(includes))
         {
             foreach (var item in includes.Split(','))
             {
@@ -82,13 +94,15 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
 
 
         }
-
-        return query.ToList();
+        var result = _mapper.ProjectTo<TDto>(query).ToList();
+        return result;
     }
 
-    public T GetById(int id)
+    public TDto GetById(int id)
     {
-        return _dbSet.Find(id);
+        var entity = _dbSet.Find(id);
+        var result = _mapper.Map<TDto>(entity);
+        return result;
     }
 
     public void DeleteById(int id)
@@ -99,26 +113,30 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
     }
 
 
-    public T Insert(T entity)
+    public TDto Insert(TDto dto)
     {
-        _context.Add(entity);
+        var entity = _mapper.Map<TEntity>(dto);
+         var result = _context.Add(entity);
         Save();
-        return entity;
+        return dto;
     }
-    public void InsertRange(IEnumerable<T> entities)
+    public void InsertRange(IEnumerable<TDto> dtoes)
     {
+        var entities=_mapper.Map<TEntity>(dtoes);
         _context.AddRange(entities);
         Save();
     }
 
-    public T Uodate(T entity)
+    public TDto Update(TDto dto)
     {
+        var entity= _mapper.Map<TEntity>(dto);
        _context.Update(entity);
         Save();
-        return entity;
+        return dto;
     }
-    public void UpdateRange(IEnumerable<T> entities)
+    public void UpdateRange(IEnumerable<TDto> dtoes)
     {
+        var entities = _mapper.Map<TEntity>(dtoes);
        _context.UpdateRange(entities);
         Save();
     }
@@ -127,8 +145,5 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         _context.SaveChanges();
     }
 
-
-
-
-
+   
 }

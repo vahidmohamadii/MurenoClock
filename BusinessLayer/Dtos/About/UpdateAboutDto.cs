@@ -3,7 +3,7 @@ using BusinessLayer.Dtos.Common;
 
 namespace BusinessLayer.Dtos.About;
 
-public class AboutUpdateDto:BaseDto
+public class UpdateAboutDto:BaseDto
 {
     public string Title { get; set; }
     public string Description { get; set; }

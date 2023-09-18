@@ -5,6 +5,7 @@ using BusinessLayer.Repository.EntityRepository;
 using BusinessLayer.Repository.IEntityRepository;
 using BusinessLayer.UnitOfWork;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace BusinessLayer;
 
@@ -12,8 +13,13 @@ public static class BusinessLayerConfigurationServices
 {
     public static void ConfigureBusinessLayerServices(this IServiceCollection services)
     {
-        services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-        services.AddTransient<IUnitOfWork, BusinessLayer.UnitOfWork.UnitOfWork>();
+
+
+        services.AddAutoMapper(Assembly.GetExecutingAssembly());
+        services.AddScoped(typeof(IGenericRepository<,>), typeof(GenericRepository<,>));
+        services.AddTransient<IUnitOfWork, UnitOfWork.UnitOfWork>();
+
+        //Register Repositories
         services.AddScoped<IAboutRepository, AboutRepository>();
         services.AddScoped<IContactFormRepository, ContactFormRepository>();
         services.AddScoped<IContactRepository, ContactRepository>();
@@ -24,5 +30,7 @@ public static class BusinessLayerConfigurationServices
         services.AddScoped<IProductImageRepository, ProductImageRepository>();
         services.AddScoped<ISlideRepository, SlideRepository>();
         services.AddScoped<ISocialRepository, SocialRepository>();
+
+    
     }
 }
