@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BusinessLayer.Dtos.About;
 using BusinessLayer.UnitOfWork;
+using BusinessLayer.Utility;
 using DataLayer.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -44,6 +45,12 @@ namespace MurenoClock.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(AboutDto aboutdto)
         {
+           
+            if(aboutdto.ImageFile != null)
+            {
+                aboutdto.ImageFileName=  InsertPhoto.Insert(aboutdto.ImageFile, "wwwroot/Images/About");
+            }
+ 
             var about = _mapper.Map<About>(aboutdto);
             _unitOfWork.About.InsertAsync(about, CancellationToken.None);
 

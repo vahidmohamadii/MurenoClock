@@ -1,5 +1,4 @@
 ﻿
-using DataLayer.Entities.common;
 
 namespace DataLayer.Entities;
 
