@@ -10,21 +10,20 @@ namespace BusinessLayer.UnitOfWork;
 public class UnitOfWork : IUnitOfWork
 {
     private readonly MurenoClockContext _context;
-    private readonly IMapper _mapper;
 
-    public UnitOfWork(MurenoClockContext context, IMapper mapper)
+    public UnitOfWork(MurenoClockContext context)
     {
         _context = context;
-        About = new AboutRepository(_context, mapper);
-        Contact = new ContactRepository(_context, mapper);
-        ContactForm = new ContactFormRepository(_context, mapper);
-        Nav = new NavRepository(_context, mapper);
-        OnlineSell = new OnlineSellRepository(_context, mapper);
-        Product = new ProductRepository(_context, mapper);
-        ProductCategory = new ProductCategoryRepository(_context, mapper);
-        ProductImage = new ProductImageRepository(_context, mapper);
-        Slide=new SlideRepository(_context, mapper);
-        Social=new SocialRepository(_context, mapper);
+        About = new AboutRepository(_context);
+        Contact = new ContactRepository(_context);
+        ContactForm = new ContactFormRepository(_context);
+        Nav = new NavRepository(_context);
+        OnlineSell = new OnlineSellRepository(_context);
+        Product = new ProductRepository(_context);
+        ProductCategory = new ProductCategoryRepository(_context);
+        ProductImage = new ProductImageRepository(_context);
+        Slide=new SlideRepository(_context);
+        Social=new SocialRepository(_context);
 
     }
 

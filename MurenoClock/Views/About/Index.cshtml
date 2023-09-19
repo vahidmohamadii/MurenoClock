@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BusinessLayer.Dtos.About.AboutDto>
+﻿@model IEnumerable<DataLayer.Entities.About>
 
 @{
     ViewData["Title"] = "Index";
@@ -40,9 +40,8 @@
                 @Html.DisplayFor(modelItem => item.ImageFileName)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id=item.Id })
             </td>
         </tr>
 }

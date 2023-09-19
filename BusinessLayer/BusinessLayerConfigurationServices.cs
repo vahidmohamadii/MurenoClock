@@ -16,7 +16,7 @@ public static class BusinessLayerConfigurationServices
 
 
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
-        services.AddScoped(typeof(IGenericRepository<,>), typeof(GenericRepository<,>));
+        services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
         services.AddTransient<IUnitOfWork, UnitOfWork.UnitOfWork>();
 
         //Register Repositories

@@ -1,10 +1,7 @@
-﻿
-
-using BusinessLayer.Dtos.Nav;
-using DataLayer.Entities;
+﻿using DataLayer.Entities;
 
 namespace BusinessLayer.Repository.IEntityRepository;
 
-public interface INavRepository:IGenericRepository<Nav,NavDto>
+public interface INavRepository:IGenericRepository<Nav>
 {
 }

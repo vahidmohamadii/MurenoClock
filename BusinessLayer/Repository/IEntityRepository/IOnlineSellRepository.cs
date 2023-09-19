@@ -1,10 +1,7 @@
-﻿
-
-using BusinessLayer.Dtos.OnlineSell;
-using DataLayer.Entities;
+﻿using DataLayer.Entities;
 
 namespace BusinessLayer.Repository.IEntityRepository;
 
-public interface IOnlineSellRepository : IGenericRepository<OnlineSell,OnlineSellDto>
+public interface IOnlineSellRepository : IGenericRepository<OnlineSell>
 {
 }

@@ -17,7 +17,7 @@ namespace MurenoClock.Controllers
 
         public IActionResult Index()
         {
-            
+
             return View();
         }
 

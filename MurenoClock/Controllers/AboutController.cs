@@ -1,5 +1,7 @@
-﻿using BusinessLayer.Dtos.About;
+﻿using AutoMapper;
+using BusinessLayer.Dtos.About;
 using BusinessLayer.UnitOfWork;
+using DataLayer.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MurenoClock.Controllers
@@ -7,18 +9,21 @@ namespace MurenoClock.Controllers
     public class AboutController : Controller
     {
         private IUnitOfWork _unitOfWork { get; set; }
+        private readonly IMapper _mapper;
 
 
-        public AboutController(IUnitOfWork unitOfWork)
+        public AboutController(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
 
         }
         // GET: AboutController
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-           
-            return View(_unitOfWork.About.GetAll());
+            var entities =await _unitOfWork.About.GetAllAsync();
+
+            return View(entities);
         }
         
         // GET: AboutController/Details/5
@@ -37,27 +42,33 @@ namespace MurenoClock.Controllers
         // POST: AboutController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(AboutDto about)
+        public ActionResult Create(AboutDto aboutdto)
         {
+            var about = _mapper.Map<About>(aboutdto);
             _unitOfWork.About.InsertAsync(about, CancellationToken.None);
 
-            return View();
+            return RedirectToAction(nameof(Index));
 
         }
 
         // GET: AboutController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            return View();
+          
+            var about =await _unitOfWork.About.GetByIdAsync(id, CancellationToken.None);
+            var aboutdto = _mapper.Map<AboutDto>(about);
+            return View(aboutdto);
         }
 
         // POST: AboutController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public  ActionResult Edit(AboutDto aboutDto)
         {
             try
             {
+                var about=_mapper.Map<About>(aboutDto);
+                _unitOfWork.About.Update(about);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -67,19 +78,23 @@ namespace MurenoClock.Controllers
         }
 
         // GET: AboutController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            return View();
+            var about =await _unitOfWork.About.GetByIdAsync(id,CancellationToken.None);
+            var aboutdto = _mapper.Map<AboutDto>(about);
+            return View(aboutdto);
         }
 
         // POST: AboutController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(AboutDto aboutdto)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                var about =  _unitOfWork.About.DeleteById(aboutdto.Id);
+                var res = _mapper.Map<AboutDto>(about);
+                return View(res);
             }
             catch
             {

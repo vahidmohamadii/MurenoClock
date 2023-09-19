@@ -7,9 +7,9 @@ using DataLayer.Entities;
 
 namespace BusinessLayer.Repository.EntityRepository;
 
-public class NavRepository : GenericRepository<Nav,NavDto>, INavRepository
+public class NavRepository : GenericRepository<Nav>, INavRepository
 {
-    public NavRepository(MurenoClockContext context, IMapper mapper) : base(context, mapper)
+    public NavRepository(MurenoClockContext context) : base(context)
     {
     }
 }
