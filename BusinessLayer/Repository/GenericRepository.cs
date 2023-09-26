@@ -8,65 +8,21 @@ namespace BusinessLayer.Repository;
 public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
 {
     private readonly MurenoClockContext _context;
-    private readonly DbSet<TEntity> _dbSet;
+    private readonly DbSet<TEntity> Entities;
+    public virtual IQueryable<TEntity> Table => Entities;
+    public virtual IQueryable<TEntity> TableNoTracking => Entities.AsNoTracking();
     public GenericRepository(MurenoClockContext context)
     {
         _context = context;
-        _dbSet = _context.Set<TEntity>();
+        Entities = _context.Set<TEntity>();
   
 
     }
 
+    #region AsyncMethod
     public async Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> where = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includes = "")
     {
-        var query = _dbSet.AsQueryable();
-        if (where != null)
-        {
-            query = query.Where(where);
-        }
-        if (orderBy != null)
-        {
-            query = orderBy(query);
-        }
-        if (!string.IsNullOrEmpty(includes))
-        {
-            foreach (var item in includes.Split(','))
-            {
-                query = query.Include(item);
-            }
-
-
-        }
-        return  query.ToList();
-    }
-
-    public async Task<TEntity> GetByIdAsync(int id, CancellationToken cancellationToken)
-    {
-        var entity = await _dbSet.FindAsync(id,cancellationToken);
-        return entity;
-    }
-
-    public async Task<TEntity> InsertAsync(TEntity entity, CancellationToken cancellationToken)
-    {
-        await _context.AddAsync(entity, cancellationToken);
-        SaveAsync();
-        return entity;
-    }
-
-    public async Task InsertRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken)
-    {
-        _context.AddRange(entities,cancellationToken);
-        SaveAsync();
-      
-    }
-
-    public async Task SaveAsync()
-    {
-       await _context.SaveChangesAsync();
-    }
-    public List<TEntity> GetAll(Expression<Func<TEntity, bool>> where = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includes = "")
-    {
-        var query = _dbSet.AsQueryable();
+        var query = Entities.AsQueryable();
         if (where != null)
         {
             query = query.Where(where);
@@ -86,48 +42,144 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
         }
         return query.ToList();
     }
+    public async Task<TEntity> GetByIdAsync(int id, CancellationToken cancellationToken)
+    {
+        var entity = await Entities.FindAsync(id, cancellationToken);
+        return entity;
+    }
+    public async Task DeleteByIdAsync(int id,CancellationToken cancellationToken ,bool saveNow = true)
+    {
+        var entity = GetById(id);
+         Entities.Remove(entity);
+        if (saveNow)
+           await SaveAsync(cancellationToken);
+    }
+    public async Task DeleteByEntityAsync(TEntity entity,CancellationToken cancellationToken ,bool saveNow = true)
+    {
+        Entities.Remove(entity);
+        if (saveNow)
+           await SaveAsync(cancellationToken);
+    }
+    public async Task DeleteRange(IEnumerable<TEntity> entity,CancellationToken cancellationToken, bool saveNow = true)
+    {
+        Entities.RemoveRange(entity);
+        if (saveNow)
+          await  SaveAsync(cancellationToken);
+    }
+    public async Task<TEntity> InsertAsync(TEntity entity, CancellationToken cancellationToken, bool saveNow = true)
+    {
+        await _context.AddAsync(entity, cancellationToken);
+        if(saveNow)
+          await SaveAsync(cancellationToken);
+        return entity;
+    }
+    public async Task InsertRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken, bool saveNow = true)
+    {
+          await _context.AddRangeAsync(entities, cancellationToken);
+          if(saveNow)
+             await SaveAsync(cancellationToken);
 
+    }
+    public async Task<TEntity> UpdateAsync(TEntity entity, CancellationToken cancellationToken, bool saveNow = true)
+    {
+         _context.Update(entity);
+          if (saveNow)
+            await SaveAsync(cancellationToken);
+          return entity;
+    }
+    public async Task UpdateRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken, bool saveNow = true)
+    {
+         _context.UpdateRange(entities);
+        if (saveNow)
+            await SaveAsync(cancellationToken);
+
+    }
+
+    public async Task SaveAsync(CancellationToken cancellationToken)
+    {
+        await _context.SaveChangesAsync(cancellationToken);
+    }
+    #endregion
+
+    #region SyncMethod
+    public List<TEntity> GetAll(Expression<Func<TEntity, bool>> where = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includes = "")
+    {
+        var query = Entities.AsQueryable();
+        if (where != null)
+        {
+            query = query.Where(where);
+        }
+        if (orderBy != null)
+        {
+            query = orderBy(query);
+        }
+        if (!string.IsNullOrEmpty(includes))
+        {
+            foreach (var item in includes.Split(','))
+            {
+                query = query.Include(item);
+            }
+
+
+        }
+        return query.ToList();
+    }
     public TEntity GetById(int id)
     {
-        var entity = _dbSet.Find(id);
+        var entity = Entities.Find(id);
         return entity;
     }
-
-    public async Task DeleteById(int id)
+    public void DeleteById(int id, bool saveNow = true)
     {
-        var entity =await GetByIdAsync(id,CancellationToken.None);
-        _dbSet.Remove(entity);
-        Save();
+        var entity = GetById(id);
+        Entities.Remove(entity);
+        if (saveNow)
+            Save();
     }
-
-
-    public TEntity Insert(TEntity entity)
+    public void DeleteByEntity(TEntity entity, bool saveNow = true)
     {
-         var result = _context.Add(entity);
-        Save();
+        Entities.Remove(entity);
+        if (saveNow)
+            Save();
+    }
+    public void DeleteRange(IEnumerable<TEntity> entity, bool saveNow = true)
+    {
+        Entities.RemoveRange(entity);
+        if (saveNow)
+            Save();
+    }
+    public TEntity Insert(TEntity entity, bool saveNow = true)
+    {
+        Entities.Add(entity);
+        if (saveNow)
+            Save();
         return entity;
     }
-    public void InsertRange(IEnumerable<TEntity> entities)
+    public void InsertRange(IEnumerable<TEntity> entities, bool saveNow = true)
     {
-        _dbSet.AddRange(entities);
-        Save();
+        Entities.AddRange(entities);
+        if (saveNow)
+            Save();
     }
-
-    public TEntity Update(TEntity entity)
+    public TEntity Update(TEntity entity, bool saveNow = true)
     {
-       _dbSet.Update(entity);
-        Save();
+        Entities.Update(entity);
+        if (saveNow)
+            Save();
         return entity;
     }
-    public void UpdateRange(IEnumerable<TEntity> entities)
+    public void UpdateRange(IEnumerable<TEntity> entities, bool saveNow = true)
     {
-       _dbSet.UpdateRange(entities);
-        Save();
+        Entities.UpdateRange(entities);
+        if (saveNow)
+            Save();
     }
     public void Save()
     {
         _context.SaveChanges();
     }
+    #endregion
 
-   
+
+
 }

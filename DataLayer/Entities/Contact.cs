@@ -2,7 +2,7 @@
 
 namespace DataLayer.Entities;
 
-public class Contact: BaseEntity
+public class Contact: BaseEntity<int>
 {
     public string Title { get; set; }
     public string Address { get; set; }

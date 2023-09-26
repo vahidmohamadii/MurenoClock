@@ -2,7 +2,7 @@
 
 namespace BusinessLayer.Dtos.Contact;
 
-public class UpdateContactDto : BaseDto
+public class UpdateContactDto 
 
 {
     public string Title { get; set; }

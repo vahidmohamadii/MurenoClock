@@ -4,7 +4,7 @@ using BusinessLayer.Dtos.Common;
 
 namespace BusinessLayer.Dtos.OnlineSell;
 
-public class UpdateOnlineSellDto:BaseDto
+public class UpdateOnlineSellDto
 {
     public string Title { get; set; }
     public string Description { get; set; }

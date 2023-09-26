@@ -2,7 +2,7 @@
 
 namespace DataLayer.Entities;
 
-public class Product: BaseEntity
+public class Product: BaseEntity<int>
 {
     public string ImageFileName { get; set; }
     public string  Title { get; set; }

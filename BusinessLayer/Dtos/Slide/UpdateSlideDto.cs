@@ -3,7 +3,7 @@ using BusinessLayer.Dtos.Common;
 
 namespace BusinessLayer.Dtos.Slide;
 
-public class UpdateSlideDto:BaseDto
+public class UpdateSlideDto
 {
     public string Title { get; set; }
     public string Description { get; set; }

@@ -2,7 +2,7 @@
 
 namespace DataLayer.Entities;
 
-public class Social: BaseEntity
+public class Social: BaseEntity<int>
 {
     public string Title { get; set; }
     public string ImageFileName { get; set; }

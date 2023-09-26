@@ -2,7 +2,7 @@
 
 namespace DataLayer.Entities;
 
-public class OnlineSell: BaseEntity
+public class OnlineSell: BaseEntity<int>
 {
     public string Title { get; set; }
     public string Description { get; set; }

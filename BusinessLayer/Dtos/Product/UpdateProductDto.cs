@@ -4,7 +4,7 @@ using BusinessLayer.Dtos.ProductImage;
 
 namespace BusinessLayer.Dtos.Product;
 
-public class UpdateProductDto:BaseDto
+public class UpdateProductDto
 {
     public string ImageFileName { get; set; }
     public string Title { get; set; }

@@ -1,8 +1,8 @@
 using BusinessLayer;
+using BusinessLayer.AutoFac;
 using DataLayer;
 using ElmahCore.Mvc;
 using ElmahCore.Sql;
-using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,16 +10,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.ConfigureDataLayerRegistration(builder.Configuration);
 builder.Services.ConfigureBusinessLayerServices();
+builder.Services.BuildAutofacServiceProvider();
 
 builder.Services.AddElmah<SqlErrorLog>(op =>
 {
-
     op.LogPath = "/Elmah";
     op.ConnectionString = builder.Configuration.GetConnectionString("MurenoClockConnection");
-    //op.SqlServerDatabaseSchemaName = "Errors";
-    //op.SqlServerDatabaseTableName = "ElmahError";
-
-
 });
 var app = builder.Build();
 

@@ -4,18 +4,28 @@ namespace BusinessLayer.Repository;
 
 public interface IGenericRepository<TEntity> where TEntity :class
 {
-    Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> where = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includes = "");
-    Task<TEntity> GetByIdAsync(int id, CancellationToken cancellationToken);
-    Task<TEntity> InsertAsync(TEntity dto,CancellationToken cancellationToken);
-    Task InsertRangeAsync(IEnumerable<TEntity> entityDto, CancellationToken cancellationToken);
-    Task SaveAsync();
-    List<TEntity> GetAll(Expression<Func<TEntity, bool>> where = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includes = "");
-    TEntity GetById(int id);
-    TEntity Insert(TEntity dto);
-    void InsertRange(IEnumerable<TEntity> dtoes);
-    TEntity Update(TEntity entity);
-    void UpdateRange(IEnumerable<TEntity> entities);
-    Task DeleteById(int id);
-    void Save();
 
+    IQueryable<TEntity> Table { get; }
+    IQueryable<TEntity> TableNoTracking { get; }
+
+    void DeleteByEntity(TEntity entity, bool saveNow = true);
+    Task DeleteByEntityAsync(TEntity entity, CancellationToken cancellationToken, bool saveNow = true);
+    void DeleteById(int id, bool saveNow = true);
+    Task DeleteByIdAsync(int id, CancellationToken cancellationToken, bool saveNow = true);
+    void DeleteRange(IEnumerable<TEntity> entity, bool saveNow = true);
+    Task DeleteRange(IEnumerable<TEntity> entity, CancellationToken cancellationToken, bool saveNow = true);
+    List<TEntity> GetAll(Expression<Func<TEntity, bool>> where = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includes = "");
+    Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> where = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includes = "");
+    TEntity GetById(int id);
+    Task<TEntity> GetByIdAsync(int id, CancellationToken cancellationToken);
+    TEntity Insert(TEntity entity, bool saveNow = true);
+    Task<TEntity> InsertAsync(TEntity entity, CancellationToken cancellationToken, bool saveNow = true);
+    void InsertRange(IEnumerable<TEntity> entities, bool saveNow = true);
+    Task InsertRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken, bool saveNow = true);
+    void Save();
+    Task SaveAsync(CancellationToken cancellationToken);
+    TEntity Update(TEntity entity, bool saveNow = true);
+    Task<TEntity> UpdateAsync(TEntity entity, CancellationToken cancellationToken, bool saveNow = true);
+    void UpdateRange(IEnumerable<TEntity> entities, bool saveNow = true);
+    Task UpdateRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken, bool saveNow = true);
 }

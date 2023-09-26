@@ -2,7 +2,7 @@
 
 namespace DataLayer.Entities;
 
-public class ProductCategory: BaseEntity
+public class ProductCategory: BaseEntity<int>
 {
     public string Title { get; set; }
     public List<Product> products { get; set; }

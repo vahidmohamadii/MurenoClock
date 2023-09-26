@@ -3,7 +3,7 @@ using BusinessLayer.Dtos.Common;
 
 namespace BusinessLayer.Dtos.Social;
 
-public class UpdateSocialDto:BaseDto
+public class UpdateSocialDto
 {
     public string Title { get; set; }
     public string ImageFileName { get; set; }

@@ -4,7 +4,7 @@ using BusinessLayer.Dtos.Common;
 
 namespace BusinessLayer.Dtos.ProductCategory;
 
-public class UpdateProductCategoryDto:BaseDto
+public class UpdateProductCategoryDto
 {
     public string Title { get; set; }
 }

@@ -3,7 +3,7 @@ using BusinessLayer.Dtos.Common;
 
 namespace BusinessLayer.Dtos.Nav;
 
-public class UpdateNavDto:BaseDto
+public class UpdateNavDto
 {
     public string Title { get; set; }
     public string ImageFileName { get; set; }
