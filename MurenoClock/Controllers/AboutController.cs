@@ -2,7 +2,7 @@
 using BusinessLayer.Dtos.About;
 using BusinessLayer.Repository;
 using DataLayer.Entities;
-using MurenoClock.Controllers.CrudControllerr;
+using MurenoClock.Controllers.CrudController;
 
 namespace MurenoClock.Controllers;
 

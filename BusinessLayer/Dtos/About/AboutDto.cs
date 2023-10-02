@@ -6,9 +6,7 @@ namespace BusinessLayer.Dtos.About;
 
 public class AboutDto:BaseDto<AboutDto, DataLayer.Entities.About,int>
 {
-    public AboutDto(IMapper mapper) : base(mapper)
-    {
-    }
+
 
     public string Title { get; set; }
     public string Description { get; set; }

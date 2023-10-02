@@ -1,37 +1,42 @@
-﻿
-
-using AutoMapper;
+﻿using AutoMapper;
 using BusinessLayer.CustomMapping;
 using DataLayer.Entities.common;
+
 
 namespace BusinessLayer.Dtos.Common;
 
 public abstract class BaseDto<TDto,TEntity,Tkey>:IhaveCustomMapping 
     where TEntity : BaseEntity<Tkey>, new()
-    where TDto : class/*, new()*/
+    where TDto : class, new()
 {
-    private IMapper _mapper;
-    public BaseDto(IMapper mapper)
-    {
-        _mapper = mapper;
-    }
+ 
+
     public Tkey Id { get; set; }
+
 
     public TEntity ToEntity()
     {
-        return _mapper.Map<TEntity>(CastToDrivedClass(this));
+        var config = new MapperConfiguration(cf => cf.CreateMap<TDto, TEntity>());
+        var mapper = new Mapper(config);
+        return mapper.Map<TEntity>(CastToDrivedClass(this));
     }
     public TEntity ToEntity(TEntity entity)
     {
-        return _mapper.Map(CastToDrivedClass(this), entity);
+        var config = new MapperConfiguration(cf => cf.CreateMap<TDto, TEntity>());
+        var mapper = new Mapper(config);
+        return mapper.Map(CastToDrivedClass(this), entity);
     }
     protected TDto CastToDrivedClass(BaseDto<TDto, TEntity, Tkey> model)
     {
-        return _mapper.Map<TDto>(model);
+        var config = new MapperConfiguration(cf => cf.CreateMap<TDto,TEntity>());
+        var mapper = new Mapper(config); 
+        return mapper.Map<TDto>(model);
     }
-    public TDto TODto(TEntity entity)
+    public static TDto TODto(TEntity entity)
     {
-        return _mapper.Map<TDto>(entity);
+        var config = new MapperConfiguration(cf => cf.CreateMap<TEntity, TDto>());
+        var mapper = new Mapper(config);
+        return mapper.Map<TDto>(entity);
     }
 
     public void Createmapping(AutoMapper.Profile profile)
@@ -56,4 +61,5 @@ public abstract class BaseDto<TDto,TEntity,Tkey>:IhaveCustomMapping
     {
 
     }
+
 }

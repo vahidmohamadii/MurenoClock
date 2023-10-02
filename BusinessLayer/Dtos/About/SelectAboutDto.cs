@@ -7,9 +7,6 @@ namespace BusinessLayer.Dtos.About;
 
 public class SelectAboutDto:BaseDto<SelectAboutDto,DataLayer.Entities.About,int>
 {
-    public SelectAboutDto(IMapper mapper) : base(mapper)
-    {
-    }
 
     public string Title { get; set; }
     public string Description { get; set; }

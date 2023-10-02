@@ -1,13 +1,16 @@
 ﻿using BusinessLayer.Dtos.Common;
 using BusinessLayer.Repository;
+using BusinessLayer.Utility;
 using DataLayer.Entities.common;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq.Expressions;
+using System.Reflection;
 
-namespace MurenoClock.Controllers.CrudControllerr;
+namespace MurenoClock.Controllers.CrudController;
 
 public class CrudController<TDto,TSelectDto,TEntity,Tkey> : Controller
-    where TDto : BaseDto<TDto,TEntity,Tkey>
-    where TSelectDto: BaseDto<TSelectDto, TEntity, Tkey>
+    where TDto : BaseDto<TDto,TEntity,Tkey>,new()
+    where TSelectDto: BaseDto<TSelectDto, TEntity, Tkey>,new()
     where TEntity : BaseEntity<Tkey> ,new()
 {
     public readonly IGenericRepository<TEntity> _repository;
@@ -16,8 +19,9 @@ public class CrudController<TDto,TSelectDto,TEntity,Tkey> : Controller
     {
             _repository=repository;
     }
+ 
     // GET: CrudController
-    public async Task<ActionResult<TSelectDto>> GetAll()
+    public async Task<ActionResult<TSelectDto>> Index()
     {
         var res = await _repository.GetAllAsync();
         return View(res);
@@ -34,8 +38,30 @@ public class CrudController<TDto,TSelectDto,TEntity,Tkey> : Controller
     [ValidateAntiForgeryToken]
     public async Task<ActionResult<TSelectDto>> Create(TDto model,CancellationToken cancellationToken)
     {
+
+        ///insert Image 
+        var ImageName = "";
+        var dtoType=typeof(TDto);
+        foreach (var item in dtoType.GetProperties().ToList())
+        {
+      
+            if (item.PropertyType == typeof(IFormFile))
+            {
+              var imageFilemodel = item.GetValue(model);
+              ImageName = InsertPhoto.Insert((IFormFile)imageFilemodel, "wwwroot/Images/About");
+            }
+        }
+        foreach (var item in dtoType.GetProperties().ToList())
+        {
+            if (item.Name == "ImageFileName")
+            {
+          
+                 item.SetValue(model, ImageName);
+            }
+        }
         var entity = model.ToEntity();
         await _repository.InsertAsync(entity, cancellationToken);
+
         return View();
     }
 
@@ -66,7 +92,7 @@ public class CrudController<TDto,TSelectDto,TEntity,Tkey> : Controller
     public async Task<ActionResult<TSelectDto>> Delete(int id, CancellationToken cancellationToken)
     {
         var entity = await _repository.GetByIdAsync(id, cancellationToken);
-
+  
         return View(entity);
     }
 
@@ -76,6 +102,7 @@ public class CrudController<TDto,TSelectDto,TEntity,Tkey> : Controller
     public async Task<ActionResult<TSelectDto>> DeleteById(int id, CancellationToken cancellationToken)
     {
         var entity = await _repository.GetByIdAsync(id, cancellationToken);
+         await _repository.DeleteByEntityAsync(entity,cancellationToken);
 
         return RedirectToAction(nameof(Index));
   
