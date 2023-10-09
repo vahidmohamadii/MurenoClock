@@ -20,7 +20,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
     }
 
     #region AsyncMethod
-    public async Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> where = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includes = "")
+    public async Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> where = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includes = "", int pageid = 1)
     {
         var query = Entities.AsQueryable();
         if (where != null)
@@ -40,7 +40,9 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
 
 
         }
-        return query.ToList();
+        int skip = (pageid - 1) * 6;
+        //total = query.Count() / 6;
+        return query.Take(6).Skip(skip).ToList();
     }
     public async Task<TEntity> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
@@ -177,6 +179,12 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
     public void Save()
     {
         _context.SaveChanges();
+    }
+
+
+    public int Count()
+    {
+       return Entities.Count();
     }
     #endregion
 

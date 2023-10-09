@@ -16,7 +16,6 @@
     <Folder Include="FluentValidation\Product\" />
     <Folder Include="FluentValidation\Slide\" />
     <Folder Include="FluentValidation\Social\" />
-    <Folder Include="Interfaces\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,6 +24,7 @@
     <PackageReference Include="FluentValidation" Version="11.7.1" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.7.1" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>

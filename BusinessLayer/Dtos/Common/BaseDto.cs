@@ -12,7 +12,7 @@ public abstract class BaseDto<TDto,TEntity,Tkey>:IhaveCustomMapping
  
 
     public Tkey Id { get; set; }
-
+    public int PageId { get; set; }
 
     public TEntity ToEntity()
     {
@@ -32,7 +32,7 @@ public abstract class BaseDto<TDto,TEntity,Tkey>:IhaveCustomMapping
         var mapper = new Mapper(config); 
         return mapper.Map<TDto>(model);
     }
-    public static TDto TODto(TEntity entity)
+    public TDto TODto(TEntity entity)
     {
         var config = new MapperConfiguration(cf => cf.CreateMap<TEntity, TDto>());
         var mapper = new Mapper(config);

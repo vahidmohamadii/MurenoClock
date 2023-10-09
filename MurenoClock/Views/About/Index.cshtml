@@ -1,14 +1,20 @@
-﻿@model IEnumerable<DataLayer.Entities.About>
+﻿@using BusinessLayer.Interfaces;
+@using BusinessLayer.Repository;
+@using Microsoft.AspNetCore.Mvc.Localization;
 
+@model IEnumerable<BusinessLayer.Dtos.About.SelectAboutDto>
+@inject ICountOfQuery<DataLayer.Entities.About> count
+@inject IGenericRepository<DataLayer.Entities.About> repository;
+@inject IViewLocalizer _localize;
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>@_localize["Inde"]</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">@_localize["Create"]</a>
 </p>
 <table class="table">
     <thead>
@@ -27,23 +33,31 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-   
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                    <img src="~/Images/About/@item.ImageFileName" style="width:20px;height:20px;">
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    <show-photo image-file-name="@item.ImageFileName"></show-photo>
+                    @* <img src="~/Images/About/@item.ImageFileName" style="width:20px;height:20px;"> *@
+                </td>
+
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+                </td>
+            </tr>
+
+
+
+        }
+        <paging linkurl="/About/" currentpage=1 totalpages=count.Count()></paging>
+
     </tbody>
 </table>

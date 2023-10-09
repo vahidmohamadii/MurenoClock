@@ -24,13 +24,20 @@ public class CrudController<TDto,TSelectDto,TEntity,Tkey> : Controller
     public async Task<ActionResult<TSelectDto>> Index()
     {
         var res = await _repository.GetAllAsync();
-        return View(res);
+       List<TSelectDto> result=new List<TSelectDto>();
+        TSelectDto selectdto = new TSelectDto();
+        foreach (var item in res)
+        {
+           result.Add(selectdto.TODto(item));
+        }
+   
+        return View(result);
     }
 
     // GET: CrudController/Create
     public async Task<ActionResult<TSelectDto>> Create()
     {
-        return View();
+        return  View();
     }
 
     // POST: CrudController/Create
