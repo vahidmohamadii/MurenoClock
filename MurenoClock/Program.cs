@@ -15,7 +15,8 @@ builder.Services.AddLocalization(op =>
 }
 );
 // Add services to the container.
-builder.Services.AddControllersWithViews().SetCompatibilityVersion(CompatibilityVersion.Latest)
+builder.Services.AddControllersWithViews()
+    //.SetCompatibilityVersion(CompatibilityVersion.Latest)
     .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix,
     op => { op.ResourcesPath = "Resources"; });
 

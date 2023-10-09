@@ -10,6 +10,7 @@
     <Folder Include="FluentValidation\ContactForm\" />
     <Folder Include="FluentValidation\Contact\" />
     <Folder Include="FluentValidation\Nav\" />
+    <Folder Include="FluentValidation\Language\" />
     <Folder Include="FluentValidation\OnlineSell\" />
     <Folder Include="FluentValidation\ProductCategory\" />
     <Folder Include="FluentValidation\ProductImage\" />

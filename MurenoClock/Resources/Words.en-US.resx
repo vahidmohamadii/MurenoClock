@@ -120,7 +120,13 @@
   <data name="Create" xml:space="preserve">
     <value>Create new</value>
   </data>
+  <data name="Home" xml:space="preserve">
+    <value>Home</value>
+  </data>
   <data name="Inde" xml:space="preserve">
     <value>Index Ab</value>
+  </data>
+  <data name="Privacy" xml:space="preserve">
+    <value>Privacy</value>
   </data>
 </root>

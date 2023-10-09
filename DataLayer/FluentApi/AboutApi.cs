@@ -23,6 +23,10 @@ public class AboutApi : IEntityTypeConfiguration<About>
         //ImageFileName
         builder.Property(x=>x.ImageFileName).HasMaxLength(500);
 
+        //Relation
+        builder.HasOne(x => x.language).WithMany(x => x.abouts)
+            .HasForeignKey(x => x.LanguageId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         //Seed Data
         builder.HasData(

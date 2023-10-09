@@ -1,0 +1,15 @@
+﻿@model IEnumerable<DataLayer.Entities.Language>
+
+
+
+
+
+@foreach (var item in Model)
+{
+
+    <a href="/Home/ChangeLanguage?culture=@item.Title">
+        @item.Title
+    </a>
+
+}
+

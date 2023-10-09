@@ -13,9 +13,6 @@ public class LanguageApi : IEntityTypeConfiguration<Language>
         builder.Property(x => x.Title).IsRequired();
         builder.Property(x => x.Title).HasMaxLength(200);
 
-        //Relation
-        builder.HasOne(x => x.about).WithMany(x => x.languages)
-            .HasForeignKey(x => x.AboutId)
-            .OnDelete(DeleteBehavior.Restrict);
+   
     }
 }

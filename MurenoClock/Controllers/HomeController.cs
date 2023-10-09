@@ -1,35 +1,45 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
+﻿using BusinessLayer.Dtos.About;
+using BusinessLayer.Dtos.Language;
+using BusinessLayer.Repository.IEntityRepository;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MurenoClock.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-    
+        private readonly ILanguageRepository _languageRepository;
 
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ILanguageRepository languageRepository)
         {
             _logger = logger;
-      
+            _languageRepository = languageRepository;
+
         }
 
-        public IActionResult Index()
+        public async Task<ActionResult<SelectLanguageDto>> Index()
         {
-
+            ViewBag.languages = await _languageRepository.GetAllAsync();
             return View();
         }
-
-        public IActionResult Privacy()
+        public async Task<ActionResult<SelectLanguageDto>> languages()
         {
-            return View();
+            var res =await _languageRepository.GetAllAsync();
+            SelectLanguageDto selectLanguageDto = new SelectLanguageDto();
+            return PartialView(res);
         }
 
-        //[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        //public IActionResult Error()
-        //{
-        //    return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        //}
+
+        public IActionResult ChangeLanguage(string culture)
+        {
+            Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName
+                , CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new CookieOptions() { Expires = DateTime.UtcNow.AddYears(1) });
+            return Redirect(Request.Headers["Referer"].ToString());
+        }
+
+
     }
 }

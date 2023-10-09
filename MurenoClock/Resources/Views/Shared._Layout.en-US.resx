@@ -118,15 +118,18 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Create" xml:space="preserve">
-    <value>اضافه کردن</value>
+    <value>Create new</value>
   </data>
   <data name="Home" xml:space="preserve">
-    <value>خانه</value>
+    <value>Home</value>
   </data>
   <data name="Inde" xml:space="preserve">
-    <value>صفحع اصلی</value>
+    <value>Index Ab</value>
   </data>
   <data name="Privacy" xml:space="preserve">
-    <value>قوانین</value>
+    <value>Privacy</value>
+  </data>
+  <data name="SiteName" xml:space="preserve">
+    <value>MurenoClock</value>
   </data>
 </root>
