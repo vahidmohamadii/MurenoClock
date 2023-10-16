@@ -1,13 +1,15 @@
 ﻿using DataLayer.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer.Context;
 
-public class MurenoClockContext:DbContext
+public class MurenoClockContext:IdentityDbContext<IdentityUser>
 {
-    public MurenoClockContext(DbContextOptions<MurenoClockContext> options):base(options)
+    public MurenoClockContext(DbContextOptions<MurenoClockContext> options) : base(options)
     {
-           
+
     }
 
     public DbSet<About> abouts { get; set; }
@@ -23,6 +25,8 @@ public class MurenoClockContext:DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(MurenoClockContext).Assembly);
+        base.OnModelCreating(modelBuilder);
+
     }
 
 

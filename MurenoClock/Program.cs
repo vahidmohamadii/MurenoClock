@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
 using System.Globalization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using DataLayer.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddLocalization(op =>
@@ -29,6 +32,9 @@ builder.Services.AddElmah<SqlErrorLog>(op =>
     op.LogPath = "/Elmah";
     op.ConnectionString = builder.Configuration.GetConnectionString("MurenoClockConnection");
 });
+
+
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<MurenoClockContext>();
 
 
 var app = builder.Build();
