@@ -6,21 +6,21 @@ using System.Text.Encodings.Web;
 using System.Text;
 using BusinessLayer.Dtos.Auth;
 
-namespace MurenoClock.Controllers
+namespace MurenoClock.Controllers.Account
 {
-    public class AuthController : Controller
+    public class RegisterController : Controller
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IUserStore<IdentityUser> _userStore;
         private readonly IUserEmailStore<IdentityUser> _emailStore;
-        private readonly ILogger<AuthController> _logger;
+        private readonly ILogger<RegisterController> _logger;
         private readonly IEmailSender _emailSender;
 
-        public AuthController(UserManager<IdentityUser> userManager,
+        public RegisterController(UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
-            ILogger<AuthController> logger,
+            ILogger<RegisterController> logger,
             IEmailSender emailSender)
         {
             _userManager = userManager;
@@ -52,9 +52,9 @@ namespace MurenoClock.Controllers
             {
                 var user = CreateUser();
 
-                await _userStore.SetUserNameAsync(user, inputDto.RegisterDto.Email, CancellationToken.None);
-                await _emailStore.SetEmailAsync(user, inputDto.RegisterDto.Email, CancellationToken.None);
-                var result = await _userManager.CreateAsync(user, inputDto.RegisterDto.Password);
+                await _userStore.SetUserNameAsync(user, inputDto.Email, CancellationToken.None);
+                await _emailStore.SetEmailAsync(user, inputDto.Email, CancellationToken.None);
+                var result = await _userManager.CreateAsync(user, inputDto.Password);
 
                 if (result.Succeeded)
                 {
@@ -66,10 +66,10 @@ namespace MurenoClock.Controllers
                     var callbackUrl = Url.Action(
                         "ConfirmEmail",
                         "Account",
-                        values: new { area = "Identity", userId = userId, code = code/*, returnUrl = inputDto.ReturnUrl*/ },
+                        values: new { area = "Identity", userId, code/*, returnUrl = inputDto.ReturnUrl*/ },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(inputDto.RegisterDto.Email, "Confirm your email",
+                    await _emailSender.SendEmailAsync(inputDto.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(/*callbackUrl*/"/Register")}'>clicking here</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)

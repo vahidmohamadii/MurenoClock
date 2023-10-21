@@ -33,6 +33,9 @@ builder.Services.AddElmah<SqlErrorLog>(op =>
     op.ConnectionString = builder.Configuration.GetConnectionString("MurenoClockConnection");
 });
 
+//builder.Services.AddDbContext<MurenoClockContext>(options => options.UseSqlServer(connectionString));
+
+builder.Services.AddRazorPages();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<MurenoClockContext>();
 
@@ -74,7 +77,7 @@ var options = new RequestLocalizationOptions()
 };
 app.UseRequestLocalization(options);
 
-
+app.MapRazorPages();
 
 app.MapControllerRoute(
     name: "default",

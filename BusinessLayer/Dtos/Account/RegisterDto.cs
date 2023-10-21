@@ -5,14 +5,14 @@ using Microsoft.AspNetCore.Authentication;
 
 namespace BusinessLayer.Dtos.Auth;
 
-public class InputDto
+public class RegisterDto
 {
-    public RegisterDto RegisterDto { get; set; }
+    public InputDto InputDto { get; set; }
     //public IList<AuthenticationScheme> ExternalLogins { get; set; }
     //public string ReturnUrl { get; set; }
 }
 
-public class RegisterDto
+public class InputDto
 {
     [Required]
     [EmailAddress]
