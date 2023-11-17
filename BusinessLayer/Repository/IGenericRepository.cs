@@ -15,7 +15,7 @@ public interface IGenericRepository<TEntity> where TEntity :class
     void DeleteRange(IEnumerable<TEntity> entity, bool saveNow = true);
     Task DeleteRange(IEnumerable<TEntity> entity, CancellationToken cancellationToken, bool saveNow = true);
     List<TEntity> GetAll(Expression<Func<TEntity, bool>> where = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includes = "");
-    Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> where = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includes = "",int pageid=1);
+    Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> where = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includes = "");
 
     TEntity GetById(int id);
     Task<TEntity> GetByIdAsync(int id, CancellationToken cancellationToken);
