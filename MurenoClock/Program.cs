@@ -10,6 +10,7 @@ using System.Globalization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using DataLayer.Context;
+using WebFramework.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddLocalization(op =>
@@ -50,6 +51,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 //app.UseHttpsRedirection();
+app.UseCustomExceptionHandler();
 app.UseElmah();
 
 app.UseStaticFiles();
